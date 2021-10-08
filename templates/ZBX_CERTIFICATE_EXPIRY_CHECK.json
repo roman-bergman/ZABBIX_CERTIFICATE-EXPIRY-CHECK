@@ -1,7 +1,7 @@
 {
     "zabbix_export": {
         "version": "5.4",
-        "date": "2021-10-06T07:02:58Z",
+        "date": "2021-10-08T15:18:32Z",
         "groups": [
             {
                 "uuid": "16dc13f926e64bf48df9f464bc3dc8fe",
@@ -13,7 +13,7 @@
                 "uuid": "a7cb77ab94274e59a86a740e053161ff",
                 "template": "ZBX CERTIFICATE EXPIRY CHECK",
                 "name": "ZBX CERTIFICATE EXPIRY CHECK",
-                "description": "# AUTHOR:  Roman Bergman <roman.bergman@protonmail.com>\n# LICENSE: GNU AGPL-3.0\n# VERSION: 0.1.13",
+                "description": "# AUTHOR:  Roman Bergman <roman.bergman@protonmail.com>\n# LICENSE: GNU AGPL-3.0\n# VERSION: 0.2.1",
                 "groups": [
                     {
                         "name": "G: CERT EXPIRY CHECK"
@@ -39,24 +39,32 @@
                             },
                             {
                                 "uuid": "617d1f197162440dac4903626b30f66a",
-                                "expression": "avg(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}],#3) = {$CERT.EXPIRY.INFO}",
+                                "expression": "avg(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}],#3) <= {$CERT.EXPIRY.INFO}",
                                 "recovery_mode": "RECOVERY_EXPRESSION",
                                 "recovery_expression": "last(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}]) > {$CERT.EXPIRY.INFO}",
-                                "name": "Certificate Expires In Less Than {ITEM.VALUE}",
+                                "name": "Certificate Expires In Less Than {ITEM.VALUE} day(s)",
                                 "priority": "INFO"
                             },
                             {
                                 "uuid": "416f2141a75d46e8ac2931366749cca9",
-                                "expression": "avg(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}],#3) = {$CERT.EXPIRY.WARNING}",
+                                "expression": "avg(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}],#3) <= {$CERT.EXPIRY.WARNING}",
                                 "recovery_mode": "RECOVERY_EXPRESSION",
                                 "recovery_expression": "last(/ZBX CERTIFICATE EXPIRY CHECK/cert.expiry[{HOST.DNS},{$CERT.HOST.PORT}]) > {$CERT.EXPIRY.WARNING}",
-                                "name": "Certificate Expires In Less Than {ITEM.VALUE}",
+                                "name": "Certificate Expires In Less Than {ITEM.VALUE} day(s)",
                                 "priority": "WARNING"
                             }
                         ]
                     }
                 ],
                 "macros": [
+                    {
+                        "macro": "{$CERT.EXPIRY.INFO}",
+                        "value": "14"
+                    },
+                    {
+                        "macro": "{$CERT.EXPIRY.WARNING}",
+                        "value": "7"
+                    },
                     {
                         "macro": "{$CERT.HOST.PORT}",
                         "value": "443"
